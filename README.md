@@ -1,17 +1,16 @@
 # Cryptex
+![screenshot](image.png)
+
+~ intuitive cryptocurrency price tracking ~
 
 A modern cryptocurrency price tracking application featuring real-time updates, responsive design, and comprehensive documentation.
 
 ## Features
 
-- 🚀 Real-time cryptocurrency price tracking
-- 🔄 Automatic updates every 30 seconds
-- 🔍 Instant search functionality
-- 🌓 Dark/Light theme support
-- 📱 Responsive design
-- ⚡ Modern animations and transitions
-- 🔒 Type-safe development with TypeScript
-- 📚 Comprehensive documentation
+- Real-time cryptocurrency price tracking
+- Automatic updates every 30 seconds
+- Instant search functionality
+- Dark/Light theme support
 
 ## Tech Stack
 
@@ -48,7 +47,7 @@ A modern cryptocurrency price tracking application featuring real-time updates, 
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/mng48301/Cryptex.git
 cd blockhouse
 ```
 
@@ -90,7 +89,7 @@ npm run start
 
 3. Access the applications:
 - Web App: http://localhost:3000
-- Documentation: http://localhost:3001
+- Documentation: http://localhost:3001/intro
 
 ## Build
 

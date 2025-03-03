@@ -1,6 +1,9 @@
 # Cryptex Technical Documentation
 
-## Architecture Overview
+## Overview
+
+![screenshot](image.png)
+
 
 Cryptex is built with a modern React stack focusing on performance, maintainability, and developer experience.
 
@@ -8,32 +11,11 @@ Cryptex is built with a modern React stack focusing on performance, maintainabil
 
 ### State Management with React Query
 
-We chose React Query for state management because it provides:
-
-1. **Built-in Cache Management**
-   - Automatic background refetching
-   - Configurable stale time
-   - Cache invalidation
-   - Optimistic updates
-
-2. **Real-time Updates**
-   ```typescript
-   const { data, isLoading } = useQuery({
-     queryKey: ['cryptoPrices'],
-     queryFn: () => getCryptoPrices(10),
-     refetchInterval: 30000, // Auto-refresh every 30 seconds
-     staleTime: 5000, // Consider data fresh for 5 seconds
-   });
-   ```
-
-3. **Loading States**
-   - Automatic loading state management
-   - Skeleton loading UI
-   - Error boundary integration
+I chose React Query for state management because it provides built-in cache management with automatic background refetching. This simplifies real-time data updates and reduces boilerplate code.
 
 ### API Integration
 
-The application uses CoinCap's API for real-time cryptocurrency data:
+The application uses CoinCap's API for real-time cryptocurrency data, selected because of free API calls and comprehensive price data:
 
 ```typescript
 interface CryptoAsset {
@@ -70,69 +52,27 @@ const getCryptoPrices = async (limit: number): Promise<CryptoAsset[]> => {
 
 ### 1. Real-time Data Updates
 
-**Challenge**: Maintaining real-time price updates without overwhelming the API or the client.
+**Challenge**: It was important to provide real-time price updates without overwhelming the API or the client, dealing with rate limits.
 
 **Solution**: 
-- Implemented intelligent caching with React Query
-- Added configurable refresh intervals
-- Implemented optimistic updates
-- Added manual refresh capability
+I implemented intelligent caching with React Query and added configurable refresh intervals. Additionally, I included the manual refresh button. 
 
 ### 2. Performance Optimization
 
 **Challenge**: Handling frequent updates without impacting performance.
 
 **Solution**:
-- Implemented debounced search
-- Used React Query's caching
-- Optimized re-renders with memo
-- Added skeleton loading
+I decided to implement debounced search with React Query's caching. I also optimized re-renders with memo.
 
 ### 3. Theme Management
 
 **Challenge**: Consistent theming across components with smooth transitions.
 
 **Solution**:
-- Centralized theme management with Chakra UI
-- Created theme-aware components
-- Added smooth transitions
-- Persisted theme preference
+I selected Chakra UI for centralized theme management and used smooth transitions for crypto tiles and assets. 
 
-## Project Workflow
 
-1. **Development Process**
-   ```
-   Feature Request → Implementation → Testing → Documentation → Release
-   ```
-
-2. **Code Organization**
-   ```
-   Components → Pages → Services → State Management
-   ```
-
-3. **State Flow**
-   ```
-   API → React Query Cache → Components → UI
-   ```
-
-## Best Practices
-
-1. **Type Safety**
-   - Strict TypeScript configuration
-   - Proper interface definitions
-   - Type inference utilization
-
-2. **Performance**
-   - Memoization where necessary
-   - Proper dependency management
-   - Optimized re-renders
-
-3. **Code Quality**
-   - ESLint configuration
-   - Prettier formatting
-   - Component documentation
-
-## Future Improvements
+## Potential Future Improvements
 
 1. **Features**
    - Price alerts
@@ -160,14 +100,3 @@ const getCryptoPrices = async (limit: number): Promise<CryptoAsset[]> => {
    npm run start
    ```
 
-## Monitoring & Maintenance
-
-1. **Error Tracking**
-   - React Query error boundaries
-   - API error handling
-   - User feedback mechanisms
-
-2. **Performance Monitoring**
-   - React Query DevTools
-   - Chrome DevTools
-   - Network monitoring

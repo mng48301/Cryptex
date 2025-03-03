@@ -1,8 +1,8 @@
 {
   "unversionedId": "intro",
   "id": "intro",
-  "title": "Cryptex Documentation",
-  "description": "Project Overview",
+  "title": "Cryptex Technical Documentation",
+  "description": "Overview",
   "source": "@site/docs/intro.md",
   "sourceDirName": ".",
   "slug": "/intro",

@@ -68,14 +68,14 @@ export default function Home() {
             textAlign="center"
             mb={4}
           >
-            Cryptocurrency Dashboard
+            Cryptex
           </Heading>
           <Text 
             color={textColor} 
             fontSize="lg" 
             textAlign="center"
           >
-            Real-time tracking of top cryptocurrencies
+            ~ Intuitive Cryptocurrency Price Tracking ~
           </Text>
         </Flex>
 
