@@ -2,21 +2,25 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
   Box,
-  Container,
   Input,
   Button,
-  VStack,
+  SimpleGrid,
   Text,
-  Spinner,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  useColorModeValue
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  useColorModeValue,
+  Skeleton,
+  Heading,
+  Flex,
 } from '@chakra-ui/react';
+import { SearchIcon, RepeatIcon } from '@chakra-ui/icons';
+import { motion } from 'framer-motion';
+import { Layout } from '../components/Layout';
+import { CryptoCard } from '../components/CryptoCard';
 import { getCryptoPrices, type CryptoAsset } from '../services/api';
+
+const MotionBox = motion(Box);
 
 const AUTO_REFRESH_INTERVAL = 30000; // 30 seconds
 
@@ -24,7 +28,7 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const bgColor = useColorModeValue('white', 'gray.800');
-  const textColor = useColorModeValue('gray.800', 'white');
+  const textColor = useColorModeValue('gray.600', 'gray.400');
 
   const { data, isLoading, error, refetch } = useQuery<CryptoAsset[]>({
     queryKey: ['cryptoPrices'],
@@ -44,65 +48,81 @@ export default function Home() {
   ) || [];
 
   return (
-    <Container maxW="container.lg" py={8} bg={bgColor} color={textColor}>
-      <VStack spacing={6}>
-        <Text fontSize="2xl">Cryptex - intuitive price tracking</Text>
-        
-        <Box width="100%">
-          <Input
-            placeholder="Search cryptocurrency..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+    <Layout>
+      <MotionBox
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <Flex 
+          direction="column" 
+          align="center" 
+          mb={12}
+        >
+          <Heading
+            as="h1"
+            fontSize={{ base: "4xl", md: "5xl" }}
+            fontWeight="bold"
+            bgGradient="linear(to-r, blue.400, purple.500)"
+            bgClip="text"
+            textAlign="center"
             mb={4}
-          />
-          <Button 
-            onClick={handleRefresh} 
-            mb={4} 
-            isLoading={isRefreshing}
-            loadingText="Refreshing..."
           >
-            Refresh Prices
-          </Button>
-          <Text fontSize="sm" color="gray.500">
+            Cryptocurrency Dashboard
+          </Heading>
+          <Text 
+            color={textColor} 
+            fontSize="lg" 
+            textAlign="center"
+          >
+            Real-time tracking of top cryptocurrencies
+          </Text>
+        </Flex>
+
+        <Box mb={8} maxW="600px" mx="auto">
+          <InputGroup size="lg">
+            <InputLeftElement pointerEvents="none">
+              <SearchIcon color="gray.500" />
+            </InputLeftElement>
+            <Input
+              placeholder="Search cryptocurrencies..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              variant="filled"
+              pr="4.5rem"
+            />
+            <InputRightElement width="4.5rem">
+              <Button
+                h="1.75rem"
+                size="sm"
+                onClick={handleRefresh}
+                isLoading={isRefreshing}
+                variant="ghost"
+                colorScheme="blue"
+              >
+                <RepeatIcon />
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+          <Text fontSize="sm" color="gray.500" mt={2} textAlign="center">
             Auto-refreshes every 30 seconds
           </Text>
         </Box>
 
-        {isLoading ? (
-          <Spinner />
-        ) : error ? (
-          <Text color="red.500">
-            Error loading prices. Please try again later.
-            {error instanceof Error ? `: ${error.message}` : ''}
-          </Text>
-        ) : (
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th>Name</Th>
-                <Th>Symbol</Th>
-                <Th>Price (USD)</Th>
-                <Th>24h Change</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {filteredCryptos.map(crypto => (
-                <Tr key={crypto.id}>
-                  <Td>{crypto.name}</Td>
-                  <Td>{crypto.symbol}</Td>
-                  <Td>{Number(crypto.priceUsd).toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD'
-                  })}</Td>
-                  <Td color={Number(crypto.changePercent24Hr) >= 0 ? 'green.500' : 'red.500'}>
-                    {Number(crypto.changePercent24Hr).toFixed(2)}%
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
-        )}
-      </VStack>
-    </Container>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={6}>
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <Skeleton key={i} height="200px" borderRadius="lg" />
+            ))
+          ) : error ? (
+            <Text color="red.500">Error loading prices</Text>
+          ) : (
+            filteredCryptos.map(crypto => (
+              <CryptoCard key={crypto.id} crypto={crypto} />
+            ))
+          )}
+        </SimpleGrid>
+      </MotionBox>
+    </Layout>
   );
 }
