@@ -48,7 +48,7 @@ A modern cryptocurrency price tracking application featuring real-time updates, 
 1. Clone the repository:
 ```bash
 git clone https://github.com/mng48301/Cryptex.git
-cd blockhouse
+cd Cryptex
 ```
 
 2. Install web application dependencies:
